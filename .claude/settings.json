@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "pre-tool-response": "scripts/validate-ci.sh"
+  },
+  "agents": {
+    "dev-feedback": {
+      "path": ".claude/agents/dev-feedback.md",
+      "description": "Analyzes feedback on AI-generated code and captures learnings in documentation"
+    }
+  }
+}
