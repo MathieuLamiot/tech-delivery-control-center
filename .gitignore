@@ -54,3 +54,9 @@ htmlcov/
 
 # Docker
 *.pid
+
+# Docker validation artifacts
+.docker-validation-running
+.docker-validation-result
+.docker-validation-*.log
+.docker-validation.lock

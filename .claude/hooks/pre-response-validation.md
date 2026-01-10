@@ -1,8 +1,8 @@
-# Pre-Response Validation Hook
+# Post Tool Use Validation Hook
 
 ## Purpose
 
-This hook runs automatically before the AI completes a response where Python code was written, ensuring all CI checks pass.
+This hook runs automatically after the AI uses tools that modify files (Edit, Write, NotebookEdit), ensuring all CI checks pass.
 
 ## Configuration
 
@@ -11,7 +11,7 @@ This hook runs automatically before the AI completes a response where Python cod
 ```json
 {
   "hooks": {
-    "pre-tool-response": "scripts/validate-ci.sh"
+    "PostToolUse": "scripts/validate-ci.sh"
   }
 }
 ```
@@ -37,7 +37,18 @@ You can also run the validation script manually:
 
 ## When It Runs
 
-After any tool use that modifies Python files (Edit, Write, NotebookEdit).
+After any tool use that modifies files (Edit, Write, NotebookEdit).
+
+## How File Detection Works
+
+The script automatically detects which files have changed using `git diff`:
+- Checks unstaged changes: `git diff --name-only`
+- Checks staged changes: `git diff --cached --name-only`
+
+This means:
+- ✅ Works when run by the hook (after AI makes changes)
+- ✅ Works when run manually by humans
+- ✅ No dependency on hook-specific arguments
 
 ## Notes
 

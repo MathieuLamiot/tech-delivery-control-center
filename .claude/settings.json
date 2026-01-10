@@ -1,6 +1,6 @@
 {
   "hooks": {
-    "pre-tool-response": "scripts/validate-ci.sh"
+    "PostToolUse": "scripts/validate-ci.sh"
   },
   "agents": {
     "dev-feedback": {
