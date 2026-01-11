@@ -30,9 +30,8 @@ Tech Delivery Control Center is a Django service that aggregates engineering met
 - See [.claude/docs/development-environment.md](.claude/docs/development-environment.md) for details
 
 ### Code Quality
-**Automated validation required**: All code must pass linters and tests before completion
-- Runs automatically via pre-tool-response hook
-- Validation script: `scripts/validate-ci.sh`
+**Manual validation required**: All code must pass linters and tests before completion
+- Run manually at task completion if any code was changed: `scripts/validate-ci.sh`
 - See [.claude/docs/code-quality.md](.claude/docs/code-quality.md) for standards
 
 ## Agentic System

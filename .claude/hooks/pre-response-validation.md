@@ -1,24 +1,15 @@
-# Post Tool Use Validation Hook
+# Manual Validation Workflow
 
 ## Purpose
 
-This hook runs automatically after the AI uses tools that modify files (Edit, Write, NotebookEdit), ensuring all CI checks pass.
+Validation ensures all CI checks pass before completing a work session. The validation runs **manually at the end of each task completion**, not after every file modification.
 
-## Configuration
+## When to Run
 
-**Automatically configured** in `.claude/settings.json`:
-
-```json
-{
-  "hooks": {
-    "PostToolUse": "scripts/validate-ci.sh"
-  }
-}
-```
+**Run validation before handing work back to the user** after completing a task or set of related changes.
 
 ## Manual Execution
 
-You can also run the validation script manually:
 ```bash
 ./scripts/validate-ci.sh
 ```
@@ -32,12 +23,12 @@ You can also run the validation script manually:
 
 ## Behavior
 
-- If all checks pass: Response proceeds
-- If any check fails: AI is prompted to fix issues before completing
+- If all checks pass: Task is complete
+- If any check fails: Fix issues before completing
 
-## When It Runs
+## Why Manual Instead of Automatic?
 
-After any tool use that modifies files (Edit, Write, NotebookEdit).
+Running validation after every file modification is too aggressive and slows down development. Manual validation at task completion provides better balance between quality and efficiency.
 
 ## How File Detection Works
 
