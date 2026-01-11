@@ -40,4 +40,44 @@ Local validation matches GitHub Actions CI exactly. No surprises when pushing co
 
 ## Docker Validation
 
-Docker configuration changes are validated automatically to when needed. See docker-validation.md.
+Docker configuration changes trigger comprehensive validation (integrated into validate-ci.sh).
+
+### When It Runs
+
+Automatically triggers when these files change:
+- `Dockerfile` - Container image definition
+- `docker-compose.yml` / `docker-compose.yaml` - Service orchestration
+- `requirements.txt` - Python dependencies (affects Docker build)
+- `control_center/` - Django settings, WSGI/ASGI config
+
+### What It Validates
+
+Four-step validation process (synchronous, ~30-45 seconds):
+
+1. **Build** - Docker image builds successfully (with cache enabled)
+2. **Start** - All services (web, db, redis, celery) start correctly
+3. **Health** - Services become healthy within 30 seconds
+4. **Endpoint** - `/healthcheck/` returns `{"status":"ok"}`
+
+### Key Characteristics
+
+- **Synchronous execution** - Script waits for completion, immediate feedback
+- **Docker cache enabled** - Fast rebuilds (~30-45s) unless dependencies change
+- **Automatic cleanup** - Containers and volumes removed after validation
+- **Unique project names** - No conflicts with development containers
+
+### Troubleshooting
+
+**Validation fails:**
+- Check logs in validation output (includes service logs on failure)
+- Verify Docker daemon is running
+- Ensure no port conflicts with dev containers
+
+**Slow validation:**
+- First build without cache: 60-90 seconds (expected)
+- Subsequent builds with cache: 30-45 seconds (expected)
+- Clear cache if needed: `docker builder prune -a`
+
+**Skip Docker validation:**
+- Only runs when Docker-related or control_center/ files change
+- Python-only changes skip Docker validation entirely
