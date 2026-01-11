@@ -68,3 +68,22 @@ else:
 
 # Development-friendly email backend (prints to console)
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+
+# Celery Configuration for Development
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://localhost:6379/0")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "redis://localhost:6379/0")
+
+# Celery Beat Schedule - Daily Slack Analytics at 4AM UTC
+from celery.schedules import crontab  # noqa: E402
+
+CELERY_BEAT_SCHEDULE = {
+    "fetch-slack-message-counts-daily": {
+        "task": "slack_analytics.tasks.fetch_and_save_message_counts",
+        "schedule": crontab(hour=4, minute=0),  # Run daily at 4:00 AM UTC
+    },
+}
+
+
+# Slack Configuration (Optional Feature)
+SLACK_BOT_TOKEN = os.environ.get("SLACK_BOT_TOKEN")

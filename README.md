@@ -6,10 +6,28 @@ A Django-based control center for engineering leaders to monitor team delivery a
 
 - **Backend**: Django 6.0 + Django REST Framework
 - **Database**: PostgreSQL
+- **Task Queue**: Celery + Redis
 - **UI**: Django Admin panel + Metabase
 - **Testing**: pytest
 - **Linting**: black, isort, ruff
 - **Containerization**: Docker + Docker Compose
+
+## Features
+
+The Control Center supports multiple optional features that can be activated independently through environment variables. Each feature is designed to fail gracefully if not configured, allowing the application to run with only the features you need.
+
+### Slack Analytics
+
+Tracks daily message counts for configured Slack channels. Runs automatically at 4 AM UTC via Celery Beat.
+
+**Activation**: Set `SLACK_BOT_TOKEN` environment variable
+**Status**: If not activated, the scheduled task will bail out early without errors
+
+To use:
+1. Create a Slack Bot token with `channels:history` scope
+2. Set `SLACK_BOT_TOKEN` in your environment (`.env` file or environment variables)
+3. Configure channels to monitor via Django Admin (`/admin/slack_analytics/slackchannelconfig/`)
+4. The task will run automatically daily at 4 AM UTC
 
 ## Development Setup
 

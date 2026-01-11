@@ -47,6 +47,7 @@ Pre-configured in `.claude/settings.json` - hooks and agents work out of the box
 - **`.claude/docs/`** - Themed, detailed documentation:
   - `development-environment.md` - Venv, tooling, configuration patterns
   - `code-quality.md` - Quality gates, validation, automation
+  - `optional-features.md` - Pattern for environment-activated features with graceful degradation
 - **`.claude/agents/`** - Agent definitions (pure behavior, no content)
 - **`.claude/skills/`** - Reusable procedures
 - **`.claude/hooks/`** - Hook documentation

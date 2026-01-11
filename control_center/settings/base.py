@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "healthcheck",
+    "slack_analytics",
 ]
 
 MIDDLEWARE = [
@@ -101,3 +102,18 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/6.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Celery Configuration
+# https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html
+
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes
+
+
+# Slack Configuration (Optional Feature)
+# Set SLACK_BOT_TOKEN in environment variables to activate Slack analytics feature
+# If not provided, the feature will be disabled gracefully
+
+SLACK_BOT_TOKEN = None  # Override in environment-specific settings
