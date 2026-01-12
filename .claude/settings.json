@@ -4,6 +4,10 @@
     "dev-feedback": {
       "path": ".claude/agents/dev-feedback.md",
       "description": "Analyzes feedback on AI-generated code and captures learnings in documentation"
+    },
+    "ci-failure-handler": {
+      "path": ".claude/agents/ci-failure-handler.md",
+      "description": "Fixes CI validation failures using appropriate tools and intelligent analysis"
     }
   }
 }

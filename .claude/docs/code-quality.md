@@ -81,3 +81,64 @@ Four-step validation process (synchronous, ~30-45 seconds):
 **Skip Docker validation:**
 - Only runs when Docker-related or control_center/ files change
 - Python-only changes skip Docker validation entirely
+
+## Automatic CI Failure Handling
+
+When validation fails, the main AI agent automatically invokes a specialized ci-failure-handler agent.
+
+### What the Agent Does
+
+1. **Automated fixes** - Runs black, isort, ruff --fix commands
+2. **Linting issues** - Fixes remaining ruff errors by addressing root cause
+3. **Test failures** - Analyzes failures and fixes bugs in application code
+4. **Re-validation** - Runs validate-ci.sh again after fixes
+5. **Reporting** - Clear summary of what was fixed and why
+
+### Agent Behavior Principles
+
+**Formatting/Import Sorting:**
+- Always uses automated commands (black, isort)
+- Never manually rewrites code formatting
+
+**Linting Issues:**
+- Runs `ruff check --fix .` first
+- Fixes remaining issues by addressing root cause
+- Avoids # noqa comments unless justified
+
+**Test Failures:**
+- Reads test output to understand intent
+- Determines if code broke existing behavior (regression) OR if specifications changed
+- **Default: Fixes bugs in application code** (tests are usually correct)
+- **Only modifies tests when specifications genuinely changed**
+- Never modifies tests just to make them pass without understanding why
+
+### Example Scenarios
+
+**Scenario 1: Formatting Only**
+```
+Failures: black, isort
+Actions: Run black . && isort .
+Result: Auto-fixed, no manual intervention
+```
+
+**Scenario 2: Test Regression**
+```
+Failure: test_user_login expects 200, got 401
+Analysis: Auth code broke
+Actions: Fix auth bug in code
+Result: Bug fixed, test unchanged
+```
+
+**Scenario 3: Mixed Failures**
+```
+Failures: black, ruff, pytest
+Actions: Auto-fix formatting/linting, then fix test regression
+Result: All issues resolved intelligently
+```
+
+### When Agent Triggers
+
+Automatically invoked by main AI agent when:
+- validate-ci.sh exits with non-zero code
+- After code changes that break validation
+- Not invoked if validation already passed
