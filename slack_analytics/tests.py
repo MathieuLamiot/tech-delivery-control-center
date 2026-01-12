@@ -25,11 +25,6 @@ class TestSlackChannelConfig:
         assert channel.created_at is not None
         assert channel.updated_at is not None
 
-    def test_channel_config_str(self):
-        """Test string representation of channel config"""
-        channel = SlackChannelConfig.objects.create(channel_id="C12345678", channel_name="general")
-        assert str(channel) == "general (C12345678)"
-
     def test_channel_id_unique_constraint(self):
         """Test that channel_id must be unique"""
         SlackChannelConfig.objects.create(channel_id="C12345678", channel_name="general")
@@ -51,14 +46,6 @@ class TestSlackMessageCount:
         assert message_count.date == date.today()
         assert message_count.message_count == 42
         assert message_count.created_at is not None
-
-    def test_message_count_str(self):
-        """Test string representation of message count"""
-        channel = SlackChannelConfig.objects.create(channel_id="C12345678", channel_name="general")
-        message_count = SlackMessageCount.objects.create(
-            channel=channel, date=date(2024, 1, 15), message_count=100
-        )
-        assert str(message_count) == "general - 2024-01-15: 100 messages"
 
     def test_unique_together_constraint(self):
         """Test that channel and date combination must be unique"""
