@@ -32,6 +32,7 @@ Tech Delivery Control Center is a Django service that aggregates engineering met
 ### Code Quality
 **Manual validation required**: All code must pass linters and tests before completion
 - Run manually at task completion if any code was changed: `scripts/validate-ci.sh`
+- When `scripts/validate-ci.sh` exits with non-zero status, invoke the ci-failure-handler agent according to its description. 
 - See [.claude/docs/code-quality.md](.claude/docs/code-quality.md) for standards
 
 ## Agentic System
@@ -41,6 +42,7 @@ Pre-configured in `.claude/settings.json` - hooks and agents work out of the box
 
 ### Agents
 - **dev-feedback**: Captures feedback learnings in themed documentation
+- **ci-failure-handler**: Automatically fixes CI validation failures intelligently
 
 ### Documentation Structure
 - **CLAUDE.md** (this file) - High-level overview and router
