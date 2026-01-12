@@ -23,11 +23,7 @@ Tracks daily message counts for configured Slack channels. Runs automatically at
 **Activation**: Set `SLACK_BOT_TOKEN` environment variable
 **Status**: If not activated, the scheduled task will bail out early without errors
 
-To use:
-1. Create a Slack Bot token with `channels:history` scope
-2. Set `SLACK_BOT_TOKEN` in your environment (`.env` file or environment variables)
-3. Configure channels to monitor via Django Admin (`/admin/slack_analytics/slackchannelconfig/`)
-4. The task will run automatically daily at 4 AM UTC
+**Documentation**: See [docs/slack-analytics.md](docs/slack-analytics.md) for complete setup guide and developer reference
 
 ## Development Setup
 
